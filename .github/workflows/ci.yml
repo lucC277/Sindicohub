@@ -23,7 +23,7 @@ jobs:
         run: python -m compileall -q backend
       - name: Run API and RBAC tests
         env:
-          DATABASE_URL: sqlite:///:memory:
+          DATABASE_URL: 'sqlite:///:memory:'
         run: python -m pytest -v backend/tests
 
   frontend-check:

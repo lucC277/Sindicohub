@@ -26,6 +26,21 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+    const requestUrl = error?.config?.url || '';
+    if (status === 401 && !requestUrl.includes('/login')) {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+        window.location.assign('/login');
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
 export function extractApiError(error, fallback = 'Não foi possível completar a solicitação.') {
   if (error?.response?.data?.mensagem) {
     return error.response.data.mensagem;

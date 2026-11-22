@@ -16,11 +16,11 @@ O sistema centraliza a rotina de portaria, reservas de áreas comuns com valida�
 - **Mural de Avisos e Regimento Interno:** feed editorial de comunicados com priorização de avisos fixados e data de publicação, aliado a um guia normativo navegável por capítulos.
 - **Taxas e Boletos:** visualização de competências mensais, cópia da linha digitável e emissão de demonstrativo *(atualmente em modo demonstrativo no frontend)*.
 
-### Governança, Alertas e Visão Executiva
-- **Controle de Acesso por Perfil (RBAC):** navegação e ações segmentadas para **Síndico**, **Portaria** e **Morador**, com rotas protegidas e página inicial contextual.
+### Governança, Segurança e Visão Executiva
+- **Autenticação JWT e RBAC no Servidor e Cliente:** login com hashing Bcrypt + emissão de token **JWT (HS256)** validado nas rotas da API por perfil (**Síndico**, **Portaria** e **Morador**), além de rotas protegidas e página inicial contextual no frontend.
 - **Painel Executivo:** consolidado de métricas operacionais (encomendas pendentes, reservas agendadas, ocorrências abertas e índice de resolução) com gráficos de distribuição por status e ocupação de áreas.
 - **Central de Alertas:** monitoramento periódico em segundo plano para novas encomendas, reservas confirmadas e atualizações de ocorrências, acompanhado por notificações *toast* na interface.
-- **Tratamento Padronizado de Exceções:** handlers globais na API para respostas JSON consistentes em erros de validação (`422`), conflito (`409`), autenticação (`401`), não encontrado (`404`) e falhas internas (`500`).
+- **Tratamento Padronizado de Exceções:** handlers globais na API para respostas JSON consistentes em erros de validação (`422`), conflito (`409`), autenticação (`401`), permissão (`403`), não encontrado (`404`) e falhas internas (`500`).
 
 ---
 
@@ -39,9 +39,9 @@ O sistema centraliza a rotina de portaria, reservas de áreas comuns com valida�
 | Camada | Tecnologias |
 | --- | --- |
 | **Frontend** | React 19, Vite 8, React Router, Axios, Lucide Icons, CSS modular com design tokens |
-| **Backend** | Python 3.11+, FastAPI, SQLAlchemy ORM, Pydantic v2, Bcrypt, Uvicorn |
+| **Backend** | Python 3.11+, FastAPI, SQLAlchemy ORM, Pydantic v2, Bcrypt, PyJWT, Uvicorn |
 | **Banco de Dados** | PostgreSQL 15 containerizado via Docker Compose |
-| **Qualidade** | Oxlint (frontend), Vite build pipeline |
+| **Infra & Qualidade** | Docker (Nginx + Uvicorn + PostgreSQL), GitHub Actions CI, Pytest, Oxlint, Vite |
 
 ---
 
@@ -121,7 +121,7 @@ O PostgreSQL ficará disponível em `localhost:5432` com o banco `condominio_db`
 **Windows (PowerShell):**
 ```powershell
 python -m venv venv
-.\venv\Scripts\python.exe -m pip install fastapi uvicorn sqlalchemy psycopg2-binary bcrypt email-validator
+.\venv\Scripts\python.exe -m pip install -r backend/requirements.txt
 .\venv\Scripts\python.exe -m uvicorn backend.main:app --reload --port 8000
 ```
 
@@ -129,7 +129,7 @@ python -m venv venv
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install fastapi uvicorn sqlalchemy psycopg2-binary bcrypt email-validator
+pip install -r backend/requirements.txt
 uvicorn backend.main:app --reload --port 8000
 ```
 
@@ -150,7 +150,26 @@ npm run dev
 - Aplicação web: `http://localhost:5173`
 - Variável de ambiente opcional: copie `frontend/.env.example` para `frontend/.env` e ajuste `VITE_API_URL` caso a API rode em outro endereço.
 
-### 5. Build de produção e linter (frontend)
+### 5. Execução Unificada com Docker Compose (Nginx + FastAPI + PostgreSQL)
+
+Para subir toda a pilha containerizada em um único comando a partir da raiz do projeto:
+
+```bash
+docker compose up --build -d
+```
+
+- **Frontend (Nginx com proxy `/api`):** `http://localhost:8080`
+- **API FastAPI (Uvicorn):** `http://localhost:8000`
+- **PostgreSQL:** `localhost:5432`
+
+### 6. Testes Automatizados, Linter e Build
+
+**Backend (Pytest — autenticação JWT, RBAC e anti-conflito):**
+```bash
+pytest -v backend/tests
+```
+
+**Frontend (Linter e Build de produção):**
 ```bash
 cd frontend
 npm run lint

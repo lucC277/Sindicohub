@@ -45,29 +45,176 @@ O sistema centraliza a rotina de portaria, reservas de áreas comuns com valida�
 
 ---
 
+## Modelagem UML
+
+### Diagrama de Casos de Uso
+
+```mermaid
+flowchart LR
+    Sindico["Ator: Síndico"]
+    Portaria["Ator: Portaria"]
+    Morador["Ator: Morador"]
+
+    subgraph Sistema["Sistema SíndicoHub"]
+        UC1(["Autenticar com JWT"])
+        UC2(["Visualizar Painel Executivo e KPIs"])
+        UC3(["Registrar e Dar Baixa em Encomendas"])
+        UC4(["Consultar Encomendas"])
+        UC5(["Reservar Áreas Comuns"])
+        UC6(["Validar Conflito de Agenda (HTTP 409)"])
+        UC7(["Consultar Agenda de Reservas"])
+        UC8(["Registrar Ocorrência"])
+        UC9(["Atualizar Status de Ocorrência"])
+        UC10(["Publicar Avisos e Normas"])
+        UC11(["Consultar Mural e Regimento Interno"])
+        UC12(["Gerenciar Escala de Plantão"])
+        UC13(["Consultar Plantão e Telefone de Emergência"])
+        UC14(["Consultar Taxas e Copiar Linha Digitável"])
+        UC15(["Receber Alertas em Tempo Real"])
+    end
+
+    Sindico --> UC1
+    Sindico --> UC2
+    Sindico --> UC3
+    Sindico --> UC5
+    Sindico --> UC8
+    Sindico --> UC9
+    Sindico --> UC10
+    Sindico --> UC11
+    Sindico --> UC12
+    Sindico --> UC13
+    Sindico --> UC14
+    Sindico --> UC15
+
+    Portaria --> UC1
+    Portaria --> UC3
+    Portaria --> UC7
+    Portaria --> UC8
+    Portaria --> UC11
+    Portaria --> UC12
+    Portaria --> UC13
+    Portaria --> UC15
+
+    Morador --> UC1
+    Morador --> UC4
+    Morador --> UC5
+    Morador --> UC8
+    Morador --> UC11
+    Morador --> UC13
+    Morador --> UC14
+    Morador --> UC15
+
+    UC5 -. "«include»" .-> UC6
+```
+
+### Diagrama de Classes
+
+```mermaid
+classDiagram
+    class Usuario {
+        +int id
+        +str nome
+        +str email
+        +str senha_hash
+        +str perfil
+        +datetime criado_em
+        +verificar_senha(senha) bool
+        +criar_token_acesso() str
+    }
+
+    class Encomenda {
+        +int id
+        +str destinatario
+        +str apartamento
+        +str bloco
+        +str codigo_rastreio
+        +bool retirado
+        +datetime data_recebimento
+        +registrar_retirada() void
+    }
+
+    class Aviso {
+        +int id
+        +str titulo
+        +str conteudo
+        +str tipo
+        +bool fixado
+        +datetime data_publicacao
+    }
+
+    class EscalaPlantao {
+        +int id
+        +str funcionario_nome
+        +str cargo
+        +str turno
+        +str telefone_contato
+        +bool em_servico
+    }
+
+    class ReservaArea {
+        +int id
+        +str area
+        +str morador_nome
+        +str apartamento
+        +str bloco
+        +date data_reserva
+        +str periodo
+        +datetime criado_em
+        +validar_conflito() bool
+    }
+
+    class Ocorrencia {
+        +int id
+        +str titulo
+        +str descricao
+        +str morador_nome
+        +str apartamento
+        +str bloco
+        +str status
+        +datetime data_abertura
+        +atualizar_status(status) void
+    }
+
+    Usuario "1" --> "0..*" Encomenda : registra / consulta
+    Usuario "1" --> "0..*" Aviso : publica / lê
+    Usuario "1" --> "0..*" EscalaPlantao : gerencia / consulta
+    Usuario "1" --> "0..*" ReservaArea : solicita / consulta
+    Usuario "1" --> "0..*" Ocorrencia : abre / atualiza
+```
+
+---
+
 ## Arquitetura do Repositório
 
 ```text
 Sindicohub/
+├── .github/workflows/ci.yml  # Pipeline CI (Pytest, Oxlint, Vite build e Docker Compose)
 ├── backend/
-│   ├── database.py           # Engine SQLAlchemy, SessionLocal e injeção de dependência
-│   ├── docker-compose.yml    # Container PostgreSQL 15 com volume persistente
-│   ├── main.py               # Endpoints REST, CORS e handlers globais de exceção
+│   ├── Dockerfile            # Imagem Python 3.12 + Uvicorn
+│   ├── database.py           # Engine SQLAlchemy (DATABASE_URL), SessionLocal e get_db
+│   ├── docker-compose.yml    # Container isolado do PostgreSQL 15 para dev local
+│   ├── main.py               # Endpoints REST, JWT, RBAC, CORS e handlers de exceção
 │   ├── models.py             # Modelos ORM (Usuario, Encomenda, Aviso, EscalaPlantao, ReservaArea, Ocorrencia)
+│   ├── requirements.txt      # Dependências Python do back-end
 │   ├── schemas.py            # Contratos de entrada e saída Pydantic
-│   └── security.py           # Hashing e validação de senhas com Bcrypt
+│   ├── security.py           # Hashing Bcrypt e geração/validação de JWT (HS256)
+│   └── tests/test_api.py     # Suíte automatizada Pytest (JWT, RBAC e anti-conflito)
 ├── frontend/
-│   ├── .env.example          # Exemplo de configuração de variável de ambiente (VITE_API_URL)
+│   ├── .env.example          # Variável de ambiente (VITE_API_URL)
+│   ├── Dockerfile            # Build multi-stage (Node 20 → Nginx)
+│   ├── nginx.conf            # SPA fallback e proxy reverso /api → backend
 │   ├── index.html            # Entrada HTML (pt-BR) e fontes tipográficas
 │   ├── package.json          # Scripts e dependências do frontend
 │   └── src/
-│       ├── api/              # Cliente Axios, endpoints REST e dados demonstrativos
+│       ├── api/              # Cliente Axios (Bearer JWT + 401 guard), endpoints e dados demonstrativos
 │       ├── components/       # Layout responsivo (AppShell, Sidebar, Topbar), UI base e gráficos
 │       ├── context/          # AuthContext (persistência em localStorage) e ToastContext
 │       ├── hooks/            # useAsyncData e useNotifications (polling de alertas)
 │       ├── pages/            # Login, Painel, Encomendas, Reservas, Ocorrências, Mural, Regimento, Taxas e Plantão
 │       ├── styles/           # tokens.css, base.css, layout.css e components.css
 │       └── utils/            # Formatadores pt-BR e matriz de permissões (RBAC)
+├── docker-compose.yml        # Orquestração unificada (PostgreSQL + FastAPI + Nginx)
+├── pytest.ini                # Configuração do Pytest
 ├── .gitignore
 └── README.md
 ```

@@ -48,7 +48,7 @@ O sistema centraliza a rotina de portaria, reservas de áreas comuns com valida�
 ## Arquitetura do Repositório
 
 ```text
-projeto---condominio/
+Sindicohub/
 ├── backend/
 │   ├── database.py           # Engine SQLAlchemy, SessionLocal e injeção de dependência
 │   ├── docker-compose.yml    # Container PostgreSQL 15 com volume persistente
@@ -106,8 +106,8 @@ A documentação interativa OpenAPI (Swagger) fica disponível em `http://localh
 
 ### 1. Clonar o repositório
 ```bash
-git clone https://github.com/lucC277/projeto---condominio.git
-cd projeto---condominio
+git clone https://github.com/lucC277/Sindicohub.git
+cd Sindicohub
 ```
 
 ### 2. Inicializar o banco de dados (PostgreSQL)

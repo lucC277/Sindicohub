@@ -1,0 +1,541 @@
+/* Shell principal responsivo */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--surface-canvas);
+}
+
+/* Rail lateral arquitetônico (único ponto de contraste escuro forte) */
+.app-rail {
+  width: var(--rail-width);
+  flex-shrink: 0;
+  background-color: var(--surface-rail);
+  color: var(--ink-on-rail);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--border-rail);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 40;
+}
+
+.rail-top {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.rail-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 1.15rem;
+  border-bottom: 1px solid var(--border-rail);
+}
+
+.rail-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ink-on-rail);
+  text-decoration: none;
+}
+
+.rail-brand-link:hover {
+  text-decoration: none;
+}
+
+.brand-monogram {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-on-rail);
+  line-height: 1.15;
+}
+
+.brand-subtitle {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--ink-on-rail-muted);
+  margin-top: 2px;
+}
+
+.rail-close-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border-rail);
+  color: var(--ink-on-rail);
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.9rem 0.75rem;
+}
+
+.rail-group-title {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--ink-on-rail-muted);
+  padding: 0.75rem 0.65rem 0.35rem;
+}
+
+.rail-link {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  color: var(--ink-on-rail-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.rail-link:hover {
+  background-color: var(--surface-rail-hover);
+  color: var(--ink-on-rail);
+  text-decoration: none;
+}
+
+.rail-link.active {
+  background-color: var(--surface-rail-active);
+  color: #ffffff;
+  border-left-color: #66c2c7;
+}
+
+.rail-footer {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid var(--border-rail);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.rail-user {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.rail-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background-color: var(--surface-rail-active);
+  border: 1px solid var(--border-rail);
+  color: var(--ink-on-rail);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.rail-user-meta {
+  min-width: 0;
+}
+
+.rail-user-name {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink-on-rail);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rail-user-role {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--ink-on-rail-muted);
+}
+
+.rail-logout-btn {
+  background: transparent;
+  border: 1px solid var(--border-rail);
+  color: var(--ink-on-rail-muted);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.rail-logout-btn:hover {
+  color: #ffffff;
+  background-color: var(--surface-rail-hover);
+}
+
+/* Coluna principal */
+.app-main-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra superior fixa */
+.app-topbar {
+  min-height: var(--topbar-height);
+  background-color: var(--surface-paper);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.65rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.topbar-menu-btn {
+  display: none;
+  background: var(--surface-paper);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-primary);
+  border-radius: var(--radius-md);
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Indicador vivo da portaria com telefone de emergência visível */
+.plantao-strip {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+  background-color: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--status-success-fg);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+  color: var(--ink-primary);
+  min-width: 0;
+}
+
+.plantao-strip-offline {
+  border-left-color: var(--status-warning-fg);
+}
+
+.plantao-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-success-fg);
+  flex-shrink: 0;
+}
+
+.plantao-info {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.plantao-person {
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.plantao-shift {
+  color: var(--ink-secondary);
+}
+
+.plantao-emergency {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--border-subtle);
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.plantao-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--surface-paper);
+  border: 1px solid var(--accent-border);
+  color: var(--accent-primary);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.plantao-copy-btn:hover {
+  background-color: var(--accent-soft);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.topbar-unit-pill {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.38rem 0.7rem;
+  white-space: nowrap;
+}
+
+/* Central de notificações (AC4) */
+.notif-wrapper {
+  position: relative;
+}
+
+.notif-trigger {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-paper);
+  color: var(--ink-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.notif-trigger:hover {
+  background: var(--surface-subtle);
+}
+
+.notif-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--status-danger-fg);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 360px;
+  max-width: calc(100vw - 2rem);
+  background: var(--surface-paper);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-popover);
+  z-index: 60;
+  overflow: hidden;
+}
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notif-header h3 {
+  font-size: 0.92rem;
+}
+
+.notif-list {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--surface-canvas);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  cursor: pointer;
+}
+
+.notif-item:hover {
+  background-color: var(--surface-subtle);
+}
+
+.notif-item.unread {
+  background-color: var(--accent-soft);
+}
+
+.notif-item-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.notif-item-desc {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+
+.notif-item-time {
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+}
+
+/* Conteúdo principal */
+.app-content {
+  padding: 1.75rem 2rem 2.75rem;
+  max-width: 1320px;
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.page-header-text h1 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+
+.page-header-text p {
+  font-size: var(--text-sm);
+  color: var(--ink-secondary);
+  margin-top: 0.3rem;
+  max-width: 68ch;
+}
+
+.page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Backdrop mobile do rail */
+.rail-backdrop {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .app-rail {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 200ms ease;
+    z-index: 80;
+  }
+
+  .app-rail.open {
+    transform: translateX(0);
+  }
+
+  .rail-close-btn {
+    display: inline-flex;
+  }
+
+  .rail-backdrop.open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(28, 37, 44, 0.45);
+    z-index: 70;
+  }
+
+  .topbar-menu-btn {
+    display: inline-flex;
+  }
+
+  .app-topbar {
+    padding: 0.65rem 1rem;
+  }
+
+  .app-content {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .topbar-unit-pill {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .plantao-emergency {
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+  }
+
+  .page-header-text h1 {
+    font-size: 1.45rem;
+  }
+}

@@ -1,0 +1,78 @@
+export const MOCK_TAXAS = [
+  {
+    id: 1,
+    competencia: 'Novembro / 2026',
+    descricao: 'Cota condominial ordinária + fundo de reserva',
+    valor: 'R$ 485,50',
+    valorNumerico: 485.5,
+    vencimento: '10/11/2026',
+    status: 'Pendente',
+    codigoBarras: '34191.79001 01043.510047 91020.150008 4 95310000048550',
+  },
+  {
+    id: 2,
+    competencia: 'Outubro / 2026',
+    descricao: 'Cota condominial ordinária + fundo de reserva',
+    valor: 'R$ 485,50',
+    valorNumerico: 485.5,
+    vencimento: '10/10/2026',
+    status: 'Pago',
+    pagamentoEm: '08/10/2026',
+    codigoBarras: '34191.79001 01043.510047 91020.150008 4 95000000048550',
+  },
+  {
+    id: 3,
+    competencia: 'Setembro / 2026',
+    descricao: 'Cota condominial ordinária',
+    valor: 'R$ 460,00',
+    valorNumerico: 460.0,
+    vencimento: '10/09/2026',
+    status: 'Pago',
+    pagamentoEm: '09/09/2026',
+    codigoBarras: '34191.79001 01043.510047 91020.150008 4 94700000046000',
+  },
+  {
+    id: 4,
+    competencia: 'Agosto / 2026',
+    descricao: 'Cota condominial ordinária',
+    valor: 'R$ 460,00',
+    valorNumerico: 460.0,
+    vencimento: '10/08/2026',
+    status: 'Pago',
+    pagamentoEm: '07/08/2026',
+    codigoBarras: '34191.79001 01043.510047 91020.150008 4 94400000046000',
+  },
+];
+
+export const ESPACOS_COMUNS = [
+  {
+    nome: 'Salão de Festas',
+    capacidade: '80 pessoas',
+    taxa: 'R$ 150,00',
+    descricao: 'Ambiente climatizado com cozinha equipada, copa de apoio e mesas.',
+  },
+  {
+    nome: 'Churrasqueira A',
+    capacidade: '25 pessoas',
+    taxa: 'R$ 50,00',
+    descricao: 'Próxima às quadras, com freezer horizontal, grelha giratória e bancada.',
+  },
+  {
+    nome: 'Churrasqueira B',
+    capacidade: '20 pessoas',
+    taxa: 'R$ 50,00',
+    descricao: 'Área ao ar livre junto ao jardim interno e deck solarium.',
+  },
+  {
+    nome: 'Espaço Gourmet',
+    capacidade: '30 pessoas',
+    taxa: 'R$ 100,00',
+    descricao: 'Cooktop por indução, adega climatizada e estar integrado.',
+  },
+  {
+    nome: 'Quadra Esportiva',
+    capacidade: '16 pessoas',
+    taxa: 'Sem taxa',
+    descricao: 'Quadra poliesportiva com iluminação noturna para moradores e convidados.',
+  },
+];

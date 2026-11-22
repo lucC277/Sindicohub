@@ -1,0 +1,68 @@
+:root {
+  /* Superfícies arquitetônicas */
+  --surface-canvas: #eef0ee;
+  --surface-paper: #ffffff;
+  --surface-subtle: #f5f7f6;
+  --surface-rail: #1c252c;
+  --surface-rail-hover: #25323b;
+  --surface-rail-active: #2a3c46;
+
+  /* Tipografia e tintas */
+  --ink-primary: #1f2933;
+  --ink-secondary: #52606d;
+  --ink-muted: #6c7a86;
+  --ink-on-rail: #edf1f2;
+  --ink-on-rail-muted: #9eb0bc;
+
+  /* Destaque de marca (azulejaria/sinalização predial) */
+  --accent-primary: #1b5e63;
+  --accent-hover: #14484c;
+  --accent-soft: #e5f0f0;
+  --accent-border: #b8d5d7;
+
+  /* Bordas estruturais */
+  --border-subtle: #d5dbd9;
+  --border-strong: #b8c2bf;
+  --border-rail: #2d3a43;
+
+  /* Semânticas operacionais contidas */
+  --status-success-fg: #236b4b;
+  --status-success-bg: #e6f4ec;
+  --status-success-border: #bce0ca;
+
+  --status-warning-fg: #9a5b13;
+  --status-warning-bg: #fdf3e3;
+  --status-warning-border: #f2d6a7;
+
+  --status-danger-fg: #a63232;
+  --status-danger-bg: #fceaea;
+  --status-danger-border: #eebebe;
+
+  --status-info-fg: #1b5e63;
+  --status-info-bg: #e5f0f0;
+  --status-info-border: #b8d5d7;
+
+  /* Fontes */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Escala tipográfica */
+  --text-xs: 0.78rem;
+  --text-sm: 0.875rem;
+  --text-base: 0.95rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+
+  /* Espaçamento e geometria */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --rail-width: 252px;
+  --topbar-height: 64px;
+
+  /* Elevação mínima (apenas overlays/drawers/popovers) */
+  --shadow-overlay: 0 12px 32px rgba(28, 37, 44, 0.14);
+  --shadow-popover: 0 8px 24px rgba(28, 37, 44, 0.12);
+}
